@@ -28,6 +28,14 @@ public class RandomPlatform : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<Player>() && !Player.GetGrounded())
+        {
+            Player.SetGrounded(true);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Player>())

@@ -62,4 +62,9 @@ public class Player : MonoBehaviour
     {
         grounded = newStatus;
     }
+
+    public static bool GetGrounded()
+    {
+        return grounded;
+    }
 }
