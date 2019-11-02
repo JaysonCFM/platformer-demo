@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class DeathTrigger : MonoBehaviour
 {
     private Scene scene;
-    // Start is called before the first frame update
+    
     void Start()
     {
+        //Gets the current scene name
         scene = SceneManager.GetActiveScene();
     }
 
@@ -17,6 +18,7 @@ public class DeathTrigger : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Player>())
         {
+            //Current functionality is that the player will reset the entire scene.
             SceneManager.LoadScene(scene.name);
         }
     }
