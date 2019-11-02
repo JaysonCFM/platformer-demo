@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,6 +14,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     private int tempMoveSpeed;
+
+    private float horizontalAxis, verticalAxis, sprintAxis;
     // Gets the RigidBody and sets the temporary moveSpeed for sprinting.
     void Start()
     {
@@ -23,20 +26,27 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        //Technically not proper way of doing movement due to hard coded keys, but this will work fine.
-        //Depending on the key pressed, the player moves a direction at a certain speed, and is unaffected by the
-        //Frame rate.
-        if (Input.GetKey(KeyCode.D))
+        horizontalAxis = Input.GetAxisRaw("Horizontal");
+        verticalAxis = Input.GetAxisRaw("Vertical");
+        sprintAxis = Input.GetAxisRaw("Sprint");
+        
+        Movement();
+    }
+
+    private void Movement()
+    {
+        //Using Unity Input System to use movement
+        if (horizontalAxis >= 1f)
         {
             transform.position += moveSpeed * Time.deltaTime * Vector3.right;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (horizontalAxis <= -1f)
         {
             transform.position += moveSpeed * Time.deltaTime * Vector3.left;
         }
         
         //Jumping uses the RigidBody to jump.
-        if (Input.GetKey(KeyCode.W))
+        if (verticalAxis >= 1f)
         {
             if (grounded)
             {
@@ -46,12 +56,12 @@ public class Player : MonoBehaviour
         }
     
         //Sprinting mechanic doubles the speed until shift is let go.
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (sprintAxis >= 1f)
         {
             moveSpeed = tempMoveSpeed;
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (sprintAxis <= 0f)
         {
             moveSpeed = (tempMoveSpeed / 2);
         }
